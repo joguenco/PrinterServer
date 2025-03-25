@@ -5,7 +5,7 @@ unit PrinterUnit;
 interface
 
 uses
-  Classes, SysUtils, Interfaces, Printers, OSPrinters, fpjson;
+  Classes, SysUtils, Interfaces, Printers, OSPrinters, fpjson, RUtils;
 
 type
 
@@ -31,6 +31,7 @@ procedure TPrinterPos.WriteString(S: string);
 var
   Written: integer;
 begin
+  WriteLn(S);
   Printer.Write(S[1], Length(S), Written);
 end;
 
@@ -65,8 +66,7 @@ begin
     for jEnum in jArray do
     begin
       jLine := jEnum.Value as TJSONObject;
-      WriteLn(jLine.Strings['line']);
-      WriteString(jLine.Strings['line'] + LineEnding);
+      WriteString(RemoveDiacritics(jLine.Strings['line'] + LineEnding));
     end;
   finally
     Footer;

@@ -43,6 +43,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="ServerUnit"/>
       </Unit>
+      <Unit>
+        <Filename Value="src\rutils.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="RUtils"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
