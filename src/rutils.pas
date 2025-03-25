@@ -1,3 +1,9 @@
+(*
+  RUtils plugin.
+  Copyright (C) 2012-2014 Silvio Clecio.
+  https://risoflora.github.io/brookfreepascal/
+*)
+
 unit RUtils;
 
 {$mode ObjFPC}{$H+}

@@ -1,3 +1,10 @@
+(*
+  REST API Printer Server
+  Jorge Luis
+  jorgeluis@resolvedor.dev
+  https://resolvedor.dev
+*)
+
 program PrinterServer;
 
 {$mode objfpc}{$H+}

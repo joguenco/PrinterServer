@@ -1,3 +1,10 @@
+(*
+  Print in POS printer, the printer must be set as  default
+  Jorge Luis
+  jorgeluis@resolvedor.dev
+  https://resolvedor.dev
+*)
+
 unit PrinterUnit;
 
 {$mode ObjFPC}{$H+}

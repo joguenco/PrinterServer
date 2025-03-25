@@ -1,3 +1,10 @@
+(*
+  REST API Server
+  Jorge Luis
+  jorgeluis@resolvedor.dev
+  https://resolvedor.dev
+*)
+
 unit ServerUnit;
 
 {$mode ObjFPC}{$H+}
@@ -61,6 +68,7 @@ begin
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
+  WriteLn('[INFO] Request GET to /ping and response status: ' + IntToStr(Response.Code));
 end;
 
 procedure TServer.CatchAll(Request: TRequest; Response: TResponse);
@@ -98,6 +106,8 @@ begin
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
+  WriteLn('[INFO] Request POST to /print/v1/text/array and response status: ' +
+    IntToStr(Response.Code));
 end;
 
 function TServer.BearerTokenValidate(Request: TRequest; Response: TResponse): boolean;
