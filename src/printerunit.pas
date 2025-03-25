@@ -5,7 +5,7 @@ unit PrinterUnit;
 interface
 
 uses
-  Classes, SysUtils, Interfaces, Printers, OSPrinters;
+  Classes, SysUtils, Interfaces, Printers, OSPrinters, fpjson;
 
 type
 
@@ -16,8 +16,10 @@ type
     procedure WriteString(S: string);
     procedure OpenCashDrawer;
     procedure CutPaper;
+    procedure Footer;
   public
     procedure Ping;
+    procedure ArrayWriter(jObj: TJSONObject);
   end;
 
 var
@@ -33,8 +35,6 @@ begin
 end;
 
 procedure TPrinterPos.Ping;
-var
-  i: integer;
 begin
   with Printer do
   try
@@ -42,13 +42,37 @@ begin
     BeginDoc;
     OpenCashDrawer;
     WriteString('Pong' + LineEnding);
-    for i := 1 to 6 do
-      WriteString(LineEnding);
     CutPaper;
   finally
+    Footer;
     EndDoc;
   end;
 
+end;
+
+procedure TPrinterPos.ArrayWriter(jObj: TJSONObject);
+var
+  jArray: TJSONArray;
+  jEnum: TJSONEnum;
+  jLine: TJSONObject;
+begin
+  jArray := jObj.Arrays['lines'];
+  with Printer do
+  try
+    RawMode := True;
+    BeginDoc;
+    OpenCashDrawer;
+    for jEnum in jArray do
+    begin
+      jLine := jEnum.Value as TJSONObject;
+      WriteLn(jLine.Strings['line']);
+      WriteString(jLine.Strings['line'] + LineEnding);
+    end;
+  finally
+    Footer;
+    CutPaper;
+    EndDoc;
+  end;
 end;
 
 procedure TPrinterPos.OpenCashDrawer;
@@ -89,6 +113,14 @@ begin
   finally
     CloseFile(prnfile);
   end;
+end;
+
+procedure TPrinterPos.Footer;
+var
+  i: integer;
+begin
+  for i := 1 to 6 do
+    WriteString(LineEnding);
 end;
 
 end.
