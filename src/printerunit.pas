@@ -31,7 +31,6 @@ procedure TPrinterPos.WriteString(S: string);
 var
   Written: integer;
 begin
-  WriteLn(S);
   Printer.Write(S[1], Length(S), Written);
 end;
 
@@ -43,9 +42,9 @@ begin
     BeginDoc;
     OpenCashDrawer;
     WriteString('Pong' + LineEnding);
-    CutPaper;
   finally
     Footer;
+    CutPaper;
     EndDoc;
   end;
 

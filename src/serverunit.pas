@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Interfaces, fphttpapp, HTTPDefs, httproute, PrinterUnit,
-  fpjson;
+  fpjson, httpprotocol;
 
 type
 
@@ -19,12 +19,16 @@ type
     procedure Ping(Request: TRequest; Response: TResponse);
     procedure CatchAll(Request: TRequest; Response: TResponse);
     procedure TextArray(Request: TRequest; Response: TResponse);
+    function BearerTokenValidate(Request: TRequest; Response: TResponse): boolean;
   end;
 
 var
   Server: TServer;
 
 implementation
+
+const
+  BEARER_TOKEN = 'your_secret_token';
 
 procedure TServer.Start;
 begin
@@ -41,6 +45,7 @@ end;
 
 procedure TServer.Ping(Request: TRequest; Response: TResponse);
 begin
+
   try
     PrinterPos.Ping;
     Response.Content := '{"message":"pong"}';
@@ -70,7 +75,12 @@ end;
 procedure TServer.TextArray(Request: TRequest; Response: TResponse);
 var
   jObject: TJSONObject;
+  authorization: boolean;
 begin
+  authorization := BearerTokenValidate(Request, Response);
+
+  if not authorization then
+    Exit;
   try
     jObject := GetJSON(Request.Content) as TJSONObject;
     PrinterPos.ArrayWriter(jObject);
@@ -88,6 +98,26 @@ begin
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
+end;
+
+function TServer.BearerTokenValidate(Request: TRequest; Response: TResponse): boolean;
+var
+  AuthHeader: string;
+begin
+  AuthHeader := Request.GetHeader(THeader.hhAuthorization);
+  if AuthHeader.StartsWith('Bearer ') and (AuthHeader.Substring(7) = BEARER_TOKEN) then
+  begin
+    Result := True;
+  end
+  else
+  begin
+    Response.Content := '{"message":"Unauthorized"}';
+    Response.Code := 401;
+    Response.ContentType := 'application/json';
+    Response.ContentLength := Length(Response.Content);
+    Response.SendContent;
+    Result := False;
+  end;
 end;
 
 end.
