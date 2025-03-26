@@ -84,3 +84,4 @@ lib/
 PrinterServer
 server.log
 PrinterServer.dbg
+.DS_Store
