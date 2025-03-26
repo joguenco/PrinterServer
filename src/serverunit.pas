@@ -65,6 +65,7 @@ begin
       Response.Code := 500;
     end;
   end;
+  Response.SetCustomHeader('Access-Control-Allow-Origin', '*');
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
@@ -75,9 +76,12 @@ procedure TServer.CatchAll(Request: TRequest; Response: TResponse);
 begin
   Response.Content := '{"message":"This endpoint is not available"}';
   Response.Code := 404;
+  Response.SetCustomHeader('Access-Control-Allow-Origin', '*');
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
+  WriteLn('[WARN] Resource not ayailable and response status: ' +
+    IntToStr(Response.Code));
 end;
 
 procedure TServer.TextArray(Request: TRequest; Response: TResponse);
@@ -103,6 +107,7 @@ begin
       Response.Code := 500;
     end;
   end;
+  Response.SetCustomHeader('Access-Control-Allow-Origin', '*');
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
