@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/pos.svg" />
   <link rel="stylesheet" href="/src/bulma-no-dark-mode.min.css" />
   <link rel="stylesheet" href="/src/ticket.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -51,7 +51,7 @@
 
       <div class="modal-content">
         <div class="box">
-          <div id="message" class="has-text-centered"></div>
+          <div id="messagePing" class="has-text-centered"></div>
         </div>
       </div>
 
@@ -63,120 +63,14 @@
 
       <div class="modal-content">
         <div class="box">
-          <div id="invoice-POS">
-
-            <center id="top">
-              <div class="logo"></div>
-              <div class="info">
-                <h3>SBISTechs Inc</h3>
-              </div>
-              <!--End Info-->
-            </center>
-            <!--End InvoiceTop-->
-
-            <div id="mid">
-              <div class="info">
-                <h2>Contact Info</h2>
-                <p>
-                  Address : Street City</br>
-                  Email : jorgeluis@resolvedor.dev</br>
-                  Phone : 999-999-9999</br>
-                </p>
-              </div>
-            </div>
-            <!--End Invoice Mid-->
-
-            <div id="bot">
-
-              <div id="table">
-                <table>
-                  <tr class="tabletitle">
-                    <td class="item">
-                      <h2>Item</h2>
-                    </td>
-                    <td class="Hours">
-                      <h2>Qty</h2>
-                    </td>
-                    <td class="Rate">
-                      <h2>Sub Total</h2>
-                    </td>
-                  </tr>
-
-                  <tr class="service">
-                    <td class="tableitem">
-                      <p class="itemtext">Communication</p>
-                    </td>
-                    <td class="tableitem">
-                      <p class="itemtext">3</p>
-                    </td>
-                    <td class="tableitem">
-                      <p class="itemtext">$9.00</p>
-                    </td>
-                  </tr>
-
-                  <tr class="service">
-                    <td class="tableitem">
-                      <p class="itemtext">Asset Gathering</p>
-                    </td>
-                    <td class="tableitem">
-                      <p class="itemtext">6</p>
-                    </td>
-                    <td class="tableitem">
-                      <p class="itemtext">$6.00</p>
-                    </td>
-                  </tr>
-
-                  <tr class="service">
-                    <td class="tableitem">
-                      <p class="itemtext">Design Development</p>
-                    </td>
-                    <td class="tableitem">
-                      <p class="itemtext">9</p>
-                    </td>
-                    <td class="tableitem">
-                      <p class="itemtext">$18.00</p>
-                    </td>
-                  </tr>
-
-                  <tr class="tabletitle">
-                    <td></td>
-                    <td class="Rate">
-                      <h2>tax</h2>
-                    </td>
-                    <td class="payment">
-                      <h2>$0.00</h2>
-                    </td>
-                  </tr>
-
-                  <tr class="tabletitle">
-                    <td></td>
-                    <td class="Rate">
-                      <h2>Total</h2>
-                    </td>
-                    <td class="payment">
-                      <h2>$33.00</h2>
-                    </td>
-                  </tr>
-
-                </table>
-              </div>
-              <!--End Table-->
-
-              <div id="legalcopy">
-                <p class="legal"><strong>Thank you for your business!</strong> 
-                </p>
-              </div>
-
-            </div>
-            <!--End InvoiceBot-->
-          </div>
-          <!--End Invoice-->
-          <div id="message" class="has-text-centered"></div>
+          <div id="ticket"></div>
+          <div id="messageTicket" class="has-text-centered"></div>
         </div>
       </div>
-
-      <button class="modal-close is-large" aria-label="close"></button>
     </div>
+
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
   </div>
 
   <script type="module" src="/src/main.js"></script>
