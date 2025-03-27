@@ -2,9 +2,12 @@ const server = 'http://localhost:9090'
 
 let message = document.querySelector('#message')
 let pingButton = document.querySelector('#pingButton')
-const $target = document.getElementById('modalPing')
+let payButton = document.querySelector('#payButton')
+const modalPing = document.getElementById('modalPing')
+const modalTicket = document.getElementById('modalTicket')
 
 pingButton.addEventListener('click', pingToServer)
+payButton.addEventListener('click', payTicket)
 document.addEventListener('keydown', (event) => {
   if (event.key === "Escape") {
     closeAllModals();
@@ -17,7 +20,10 @@ const clickClose = function () {
       '.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button'
     ) || []).forEach(($close) => {
       $close.addEventListener('click', () => {
-        closeModal($target)
+        closeModal(modalPing)
+      })
+      $close.addEventListener('click', () => {
+        closeModal(modalTicket)
       })
     })
 }
@@ -27,7 +33,7 @@ clickClose()
 function pingToServer() {
   const url = `${server}/ping`
 
-  openModal($target)
+  openModal(modalPing)
 
   fetch(url).then((response) => {
     return response.json()
@@ -38,6 +44,10 @@ function pingToServer() {
     console.log(error)
     message.innerHTML = `Cannot connect to server ${url}`
   })
+}
+
+function payTicket() {
+  openModal(modalTicket)
 }
 
 function openModal($el) {
@@ -53,5 +63,3 @@ function closeAllModals() {
     closeModal($modal)
   })
 }
-
-
