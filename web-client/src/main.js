@@ -1,5 +1,22 @@
 const server = 'http://localhost:9090'
 
+const ticket = {
+  company: 'Resolvedor 10010',
+  customer: {
+    name: 'Jorge Luis',
+    address: 'Street City',
+    email: 'jorgeluis@resolvedor.dev',
+    phone: '999-999-9999'
+  },
+  details: [
+    { product: 'Web Development', quantity: 1, price: '6.00' },
+    { product: 'Desktop Development', quantity: 1, price: '6.00' },
+    { product: 'Movil Development', quantity: 1, price: '6.00' }
+  ],
+  tax: '0.00',
+  total: '18.00'
+}
+
 let messagePing = document.querySelector('#messagePing')
 let messageTicket = document.querySelector('#messageTicket')
 let pingButton = document.querySelector('#pingButton')
@@ -52,33 +69,53 @@ function payTicket() {
   openModal(modalTicket)
 
   const url = `${server}/print`
+  let lines = []
+
+  lines.push({ line: `${ticket.company}` })
+  lines.push({ line: `` })
+  lines.push({ line: `Contact Info` })
+  lines.push({ line: `- - - - - - - - - - - - - - - - - - - - - ` })
+  lines.push({ line: `Name: ${ticket.customer.name}` })
+  lines.push({ line: `Address: ${ticket.customer.address}` })
+  lines.push({ line: `Email: ${ticket.customer.email}` })
+  lines.push({ line: `Phone: ${ticket.customer.phone}` })
+  lines.push({ line: `- - - - - - - - - - - - - - - - - - - - - ` })
+  lines.push({ line: `Product               Qty        Price` })
+  lines.push({ line: `- - - - - - - - - - - - - - - - - - - - - ` })
+  ticket.details.forEach((detail) => {
+    lines.push({ line: `${detail.product} ${detail.quantity} ${detail.price}` })
+  })
+  lines.push({ line: `- - - - - - - - - - - - - - - - - - - - - ` })
+  lines.push({ line: `Tax: ${ticket.tax}` })
+  lines.push({ line: `Total: ${ticket.total}` })
+  lines.push({ line: `` })
+  lines.push({ line: `Thank you for your business!` })
 
   const data = {
-    "lines": [
-      {
-        "line": "abcdefghijklmnopqrstuvwxyz"
-      },
-      {
-        "line": "123456789012345678901234567890123456789012345678"
-      }
-    ]
-  };
+    lines
+  }
 
   fetch(url, {
-    method: 'POST', // Specify the method as POST
+    method: 'POST',
     headers: {
-      'Content-Type': 'application/json' // Set the content type to JSON
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(data) // Convert the data object to a JSON string
+    body: JSON.stringify(data)
   })
     .then(response => {
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error('Network response was not ok')
       }
-      return response.json(); // Parse the JSON from the response
+      return response.json()
     })
-    .then(data => console.log('Success:', data))
-    .catch(error => console.error('Error:', error));
+    .then(data => {
+      console.log('Success:', data)
+      messageTicket.innerHTML = data.message
+    })
+    .catch(error => {
+      console.error('Error:', error)
+      messageTicket.innerHTML = `Cannot connect to server ${url}`
+    })
 }
 
 function openModal($el) {
@@ -93,23 +130,6 @@ function closeAllModals() {
   (document.querySelectorAll('.modal') || []).forEach(($modal) => {
     closeModal($modal)
   })
-}
-
-const ticket = {
-  company: 'Resilvedor 10010',
-  customer: {
-    name: 'Jorge Luis',
-    address: 'Street City',
-    email: 'jorgeluis@resolvedor.dev',
-    phone: '999-999-9999'
-  },
-  details: [
-    { product: 'Web Development', quantity: 1, price: '6.00' },
-    { product: 'Desktop Development', quantity: 1, price: '6.00' },
-    { product: 'Movil Development', quantity: 1, price: '6.00' }
-  ],
-  tax: '0.00',
-  total: '18.00'
 }
 
 let htmlDetail = ''
@@ -134,7 +154,7 @@ document.querySelector('#ticket').innerHTML = `
             <center id="top">
               <div class="logo"></div>
               <div class="info">
-                <h3>${ticket.company}</h3>
+                <h2>${ticket.company}</h2>
               </div>
               <!--End Info-->
             </center>
