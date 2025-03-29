@@ -42,7 +42,7 @@ begin
   Application.Port := 9090;
   HTTPRouter.RegisterRoute('/ping', rmGet, @Ping);
   HTTPRouter.RegisterRoute('/catchall', rmAll, @CatchAll, True);
-  HTTPRouter.RegisterRoute('/print/v1/text/array', rmPost, @TextArray);
+  HTTPRouter.RegisterRoute('/print', rmPost, @TextArray);
   Application.Threaded := True;
   Application.Initialize;
 
@@ -54,7 +54,7 @@ procedure TServer.Ping(Request: TRequest; Response: TResponse);
 begin
 
   try
-    PrinterPos.Ping;
+    //PrinterPos.Ping;
     Response.Content := '{"message":"pong"}';
     Response.Code := 200;
   except
@@ -66,6 +66,9 @@ begin
     end;
   end;
   Response.SetCustomHeader('Access-Control-Allow-Origin', '*');
+  Response.SetCustomHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  Response.SetCustomHeader('Access-Control-Allow-Methods', 'POST, GET');
+  Response.SetCustomHeader('Connection', 'Keep-Alive');
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
@@ -77,10 +80,13 @@ begin
   Response.Content := '{"message":"This endpoint is not available"}';
   Response.Code := 404;
   Response.SetCustomHeader('Access-Control-Allow-Origin', '*');
+  Response.SetCustomHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  Response.SetCustomHeader('Access-Control-Allow-Methods', 'POST, GET');
+  Response.SetCustomHeader('Connection', 'Keep-Alive');
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;
-  WriteLn('[WARN] Resource not ayailable and response status: ' +
+  WriteLn('[WARN] Resource not available and response status: ' +
     IntToStr(Response.Code));
 end;
 
@@ -89,15 +95,15 @@ var
   jObject: TJSONObject;
   authorization: boolean;
 begin
-  authorization := BearerTokenValidate(Request, Response);
+  //authorization := BearerTokenValidate(Request, Response);
 
-  if not authorization then
-    Exit;
+  //if not authorization then
+  //  Exit;
   try
     jObject := GetJSON(Request.Content) as TJSONObject;
-    PrinterPos.ArrayWriter(jObject);
+    //PrinterPos.ArrayWriter(jObject);
 
-    Response.Content := '{"message":"Array printed"}';
+    Response.Content := '{"message":"Printed"}';
     Response.Code := 200;
   except
     on E: Exception do
@@ -108,6 +114,9 @@ begin
     end;
   end;
   Response.SetCustomHeader('Access-Control-Allow-Origin', '*');
+  Response.SetCustomHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  Response.SetCustomHeader('Access-Control-Allow-Methods', 'POST, GET');
+  Response.SetCustomHeader('Connection', 'Keep-Alive');
   Response.ContentType := 'application/json';
   Response.ContentLength := Length(Response.Content);
   Response.SendContent;

@@ -51,7 +51,8 @@ function payTicket() {
 
   openModal(modalTicket)
 
-  const url = 'http://localhost:9090/print/v1/text/array';
+  const url = `${server}/print`
+
   const data = {
     "lines": [
       {
